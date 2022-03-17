@@ -2,10 +2,12 @@ const booksAction = [
     {
         name: 'Action Book 1',
         author: 'Some Author 1',
+        image: 'img.png'
     },
     {
         name: 'Action Book 2',
         author: 'Some Author 2',
+        image: 'img_1.png'
     },
 ];
 
@@ -20,10 +22,28 @@ const booksAdventure = [
     },
 ];
 
+const renderLabelValue = (label, value) => `
+    <div>
+        <span class="label">${label}</span>
+        <span class="label-text">${value}</span>
+    </div>
+
+`
+
+const renderBookFigure = (bookParam) => ` 
+        <figure class="fig-book">
+            <img src="/img/books/${bookParam.image}" alt="Book Image"/>
+            <figcaption>
+                ${renderLabelValue('Name', bookParam.name)}
+                ${renderLabelValue('Author', bookParam.author)}
+            </figcaption>
+        </figure>
+    `;
+
 function renderTable(bookParam) {
     if (bookParam.length === 0) {
         console.error('Books has an unexpected size of 0');
-        return ;
+        return;
     }
     ;
 
@@ -59,7 +79,13 @@ function renderTable(bookParam) {
 
 }
 
-document.body.innerHTML = `<div class="d-inline mr-2">${renderTable(booksAction)}</div> <div class="d-inline">${renderTable(booksAdventure)}</div>`;
+document.body.innerHTML = `
+        ${booksAction.map(book => `
+            <div class="d-inline mr-2 ">
+                ${renderBookFigure(book)}
+            </div>
+       `).join('')}
+`;
 
 
 

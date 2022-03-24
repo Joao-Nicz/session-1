@@ -7,7 +7,7 @@ const booksAction = [
     {
         name: 'Action Book 2',
         author: 'Some Author 2',
-        image: 'img_1.png'
+        image: 'img_2.png'
     },
 ];
 
@@ -32,7 +32,10 @@ const renderLabelValue = (label, value) => `
 
 const renderBookFigure = (bookParam) => ` 
         <figure class="fig-book">
+            <div class="fig-img">
             <img src="/img/books/${bookParam.image}" alt="Book Image"/>
+            </div>
+           
             <figcaption>
                 ${renderLabelValue('Name', bookParam.name)}
                 ${renderLabelValue('Author', bookParam.author)}
@@ -80,11 +83,13 @@ function renderTable(bookParam) {
 }
 
 document.body.innerHTML = `
+    <div class="flex-grid">
         ${booksAction.map(book => `
-            <div class="d-inline mr-2 ">
+            <div class="mr-2 ">
                 ${renderBookFigure(book)}
             </div>
        `).join('')}
+    </div>
 `;
 
 

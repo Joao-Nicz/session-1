@@ -1,97 +1,96 @@
-const booksAction = [
-    {
-        name: 'Action Book 1',
-        author: 'Some Author 1',
-        image: 'img.png'
-    },
-    {
-        name: 'Action Book 2',
-        author: 'Some Author 2',
-        image: 'img_2.png'
-    },
-];
 
-const booksAdventure = [
-    {
-        name: 'Adenture Book 1',
-        author: 'Some Author 1',
-    },
-    {
-        name: 'Adventure Book 2',
-        author: 'Some Author 2',
-    },
-];
 
-const renderLabelValue = (label, value) => `
+// const someFunction = async () => {
+//     for (var i = 0; i < 1000; i++) {
+//         console.log('a');
+//     }
+// }
+//
+// // Pipe 2
+// someFunction().then(() => {
+//     console.log('done');
+// });
+
+
+// Pipe 3
+// someFunction();
+
+
+// Pipe 1
+const renderLabelValue = (label, value, maxLength) => `
     <div>
         <span class="label">${label}</span>
-        <span class="label-text">${value}</span>
+        <span class="label-text">${
+    maxLength && value.length - 1 > maxLength ?
+        value.substring(0, maxLength - 3) + '...'
+        : value
+}
+        </span>
     </div>
-
 `
 
-const renderBookFigure = (bookParam) => ` 
-        <figure class="fig-book">
-            <div class="fig-img">
-            <img src="/img/books/${bookParam.image}" alt="Book Image"/>
-            </div>
-           
-            <figcaption>
-                ${renderLabelValue('Name', bookParam.name)}
-                ${renderLabelValue('Author', bookParam.author)}
-            </figcaption>
-        </figure>
-    `;
-
-function renderTable(bookParam) {
-    if (bookParam.length === 0) {
-        console.error('Books has an unexpected size of 0');
-        return;
-    }
-    ;
-
-    //render the html table body tag
-    let htmlBody = '';
-    //the for loops serve as an activator for the table
-    for (let i = 0; i < bookParam.length; i++) {
-        const book = bookParam[i];
-        const bookArray = Object.values(book);
-
-        htmlBody += '<tr>'
-        for (let j = 0; j < bookArray.length; j++) {
-            htmlBody += `<td>${bookArray[j]}</td>`;
-        }
-        htmlBody += '</tr>';
-    }
-
-    //render the html table head tag
-    let htmlHead = '';
-
-    const book = bookParam[0] ?? {};
-    const bookArray = Object.keys(book);
-
-    //this creates a row first and then creates the headings inside of the row.
-    htmlHead += '<tr>'
-    for (let j = 0; j < bookArray.length; j++) {
-        htmlHead += `<th>${bookArray[j]}</th>`;
-    }
-    htmlHead += '</tr>'
-
-    return `<table class="table-book"><thead class="table-book-head">${htmlHead}   </thead><tbody>${htmlBody}   </tbody></table>`;
+//
+//
+//
 
 
-}
-
-document.body.innerHTML = `
-    <div class="flex-grid">
-        ${booksAction.map(book => `
-            <div class="mr-2 ">
-                ${renderBookFigure(book)}
-            </div>
-       `).join('')}
-    </div>
+const renderBookFigure = (bookParam) => `
+    <figure class="fig-book">
+        <div class="fig-img">
+            <img src="/img/books/${bookParam.image ?? 'default-book.png'}" alt="Book Image"/>
+        </div>
+        <figcaption>
+            ${renderLabelValue('Name', bookParam.name ?? 'Unknown Book')}
+            ${renderLabelValue('Author', bookParam.author ?? 'Unknown Author')}
+            ${bookParam.description ? renderLabelValue('Description', bookParam.description, 50) : ''}
+        </figcaption>
+    </figure>
 `;
 
+const renderBookCategory = (category, data, bookType) => `
+    <div class="book-category" data-category="${category}">
+        <button onclick="funcClick(${bookType})" class="previous">
+            &lt;
+            
+        </button>
+        <button onclick="funcClick()" class="next">
+            &gt;
+            
+        </button>
+        <h2>${category}</h2>
+        <div class="flex-grid">
+            
+            ${data.map(book => `
+                <div class="mr-2">
+                    ${renderBookFigure(book)}
+                </div>
+               
+            `).join('')}
+        </div>
+    </div>
+`;
+function funcClick(bookType){console.log(`previous on ${bookType}`)};
 
+const bookTypes = [
+    'action',
+    'adventure',
+    'fantasy',
+    'drama'
+];
 
-
+bookTypes.map((bookType) =>
+    fetch(`/api/v1/books-${bookType}.json`)
+        .then(data => data.json())
+        .then(data => {
+            setTimeout(() => {
+                document.body.innerHTML += renderBookCategory(bookType, data);
+            }, 100);
+        })
+        .catch(error => {
+            console.error(error);
+            document.body.innerHTML += `An error occurred with the book type ${bookType}<br/>`;
+        })
+        .finally(() => {
+            document.body.innerHTML = document.body.innerHTML.replace('Loading...', '');
+        })
+);

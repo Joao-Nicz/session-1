@@ -1,22 +1,3 @@
-
-
-// const someFunction = async () => {
-//     for (var i = 0; i < 1000; i++) {
-//         console.log('a');
-//     }
-// }
-//
-// // Pipe 2
-// someFunction().then(() => {
-//     console.log('done');
-// });
-
-
-// Pipe 3
-// someFunction();
-
-
-// Pipe 1
 const renderLabelValue = (label, value, maxLength) => `
     <div>
         <span class="label">${label}</span>
@@ -27,17 +8,12 @@ const renderLabelValue = (label, value, maxLength) => `
 }
         </span>
     </div>
-`
-
-//
-//
-//
-
+`;
 
 const renderBookFigure = (bookParam) => `
     <figure class="fig-book">
         <div class="fig-img">
-            <img src="/img/books/${bookParam.image ?? 'default-book.png'}" alt="Book Image"/>
+            <img src="./img/books/${bookParam.image ?? 'default-book.png'}" alt="Book Image"/>
         </div>
         <figcaption>
             ${renderLabelValue('Name', bookParam.name ?? 'Unknown Book')}
@@ -47,29 +23,58 @@ const renderBookFigure = (bookParam) => `
     </figure>
 `;
 
-const renderBookCategory = (category, data, bookType) => `
-    <div class="book-category" data-category="${category}">
-        <button onclick="funcClick(${bookType})" class="previous">
+// action, data...
+const renderBookCategory = (bookType, data) => `
+    <div class="book-category" data-category="${bookType}">
+        <button onclick="onButtonClick('${bookType}', 1)" class="previous">
             &lt;
-            
         </button>
-        <button onclick="funcClick()" class="next">
+        <button onclick="onButtonClick('${bookType}', -1)" class="next">
             &gt;
-            
         </button>
-        <h2>${category}</h2>
-        <div class="flex-grid">
-            
+        <h2>${bookType}</h2>
+        <div class="flex-grid" id="row">
             ${data.map(book => `
                 <div class="mr-2">
                     ${renderBookFigure(book)}
                 </div>
-               
             `).join('')}
         </div>
     </div>
 `;
-function funcClick(bookType){console.log(`previous on ${bookType}`)};
+
+// int
+// --> 1, 2, 3, 100, 200, -2, 0, -100
+// float
+// --> 1, 2, -100, 0, 1.2, 3.5, 2.5
+
+const onButtonClick = (bookType, directionMultiplier) => {
+    const element = document.querySelector(`.book-category[data-category="${bookType}"] div`);
+    const bookWidth = document.querySelector('.fig-book').offsetWidth;
+    const currentOffset = parseFloat(element.style.marginLeft !== '' ? element.style.marginLeft : 0);
+    const row = element;
+    const allChildren = row.getElementsByClassName('mr-2').length;
+    const newOffset = `${currentOffset + directionMultiplier * bookWidth *3 }`;
+    const scrollLimit = `${allChildren * 161}`
+
+
+    if (newOffset > 0) {
+
+    }else if (newOffset *-1 > scrollLimit){
+    }else{
+        element.style.marginLeft = `${newOffset}px`;
+    };
+
+
+
+
+    // -> Only allow positive
+    // -> Total width of element - offset = what is on screen > window width
+    // document.querySelector(`.book-category[data-category="action"] div`).offsetWidth
+    // window.innerWidth
+    console.log(`${bookType}, offset = ${newOffset}, window width = ${window.innerWidth}, scroll limit = ${scrollLimit}`);
+    console.log(currentOffset, allChildren)
+};
 
 const bookTypes = [
     'action',
@@ -78,8 +83,12 @@ const bookTypes = [
     'drama'
 ];
 
+// Functions can access global
+// Global cannot access inside functions
+
+
 bookTypes.map((bookType) =>
-    fetch(`/api/v1/books-${bookType}.json`)
+    fetch(`./api/v1/books-${bookType}.json`)
         .then(data => data.json())
         .then(data => {
             setTimeout(() => {

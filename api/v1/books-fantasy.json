@@ -28,5 +28,23 @@
     "author": "Stephenie Meyer",
     "description": "Donec volutpat enim sit amet risus cursus pellentesque. Nullam enim dolor, dictum eu elit sit amet, laoreet luctus diam. ",
     "image": "fsy5.png"
+  },
+  {
+    "name": "The Song OF Achillies",
+    "author": "Madeline Miller",
+    "description": "ultrices, fringilla sem sit amet, maximus leo. Maecenas euismod nunc et mattis aliquet. Quisque vitae pretium ante, sed pellentesque dolor",
+    "image": "act3.png"
+  },
+  {
+    "name": "Chainsaw Man 2",
+    "author": "Tatsuki Fujimoto",
+    "description": " Proin ultricies scelerisque odio imperdiet ornare. Sed id risus diam. Quisque aliquet, nunc eget elementum tempor, nibh nunc pretium libero, vel vestibulum diam augue eget ante. Quisque sed eros placerat, iaculis dolor quis, ornare quam. Integer auctor sollicitudin est eget cursus. Etiam euismod vitae arcu in pharetra. Curabitur sit amet metus et ipsum rhoncus faucibus et quis massa. Suspendisse sit amet odio vel nisl aliquet congue.",
+    "image": "act4.png"
+  },
+  {
+    "name": "Slayer Witch",
+    "author": "Katie French",
+    "description": "fringilla sem sit amet, maximus leo. Maecenas euismod nunc et mattis aliquet. Quisque vitae pretium ante, sed pellentesque dolor. Suspendisse in tellus euismod, condimentum neque a, blandit libero. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque metus orci, porttitor non ligula id, maximus viverra erat. Phasellus condimentum, nunc eget placerat porttitor, dolor ligula pharetra risus, eu aliquam sem sem quis ligula. Nulla nisl augue, molestie et commodo a, egestas ac quam. Morbi non dictum quam, sit amet accumsan sapien. Praesent accumsan augue lacus, et tincidunt ex luctus ut. ",
+    "image": "act5.png"
   }
 ]
